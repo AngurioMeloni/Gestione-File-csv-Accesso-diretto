@@ -11,6 +11,7 @@ namespace Crud_File_csv_Accesso_diretto
     {
         public static int Istruzione1()
         {
+            Random r = new Random();
             string s;
             int i = 0;
             int c = 0;
@@ -160,6 +161,84 @@ namespace Crud_File_csv_Accesso_diretto
 
             writer.Close();
             oStream.Close();
+        }
+        public static int Istruzione7(string parola)
+        {
+            StreamReader reader = new StreamReader("masserini.csv");
+            string s;
+            int i = 0;
+            s = reader.ReadLine();
+            while (s != null)
+            {
+
+                String[] split = s.Split(';');
+                String[] split1 = split[Istruzione2() - 1].Split(' ');
+
+                if (split1[0] == parola)
+                {
+                    reader.Close();
+                    return i;
+                }
+
+                i++;
+                s = reader.ReadLine();
+
+            }
+            reader.Close();
+            return -1;
+        }
+        public static void Istruzione8(string anno, string regione, string Mkwh, string note, string Vrandom, string Vbooleano, int linea)
+        {
+            var oStream = new FileStream("masserini1.csv", FileMode.Open, FileAccess.Write, FileShare.Read);
+            BinaryWriter writer = new BinaryWriter(oStream);
+
+            oStream.Seek(0, SeekOrigin.Begin);
+
+            oStream.Seek((200 * linea), SeekOrigin.Current);
+            string s = $"{anno};{regione};{Mkwh};{note};{Vrandom};{Vbooleano};{linea}".PadRight(200);
+            byte[] data = Encoding.ASCII.GetBytes(s);
+            writer.Write(data);
+
+            writer.Close();
+        }
+        public static int Istruzione9(string ricerca)
+        {
+            int riga = Istruzione7(ricerca);
+            int i = 0;
+            int successo = 0;
+            var readStream = new FileStream("masserini1.csv", FileMode.Open, FileAccess.Read, FileShare.Read);
+            BinaryReader read = new BinaryReader(readStream);
+
+            //Legge i dati e li converte in stringa
+            readStream.Seek(0, SeekOrigin.Begin);
+            readStream.Seek((200 * riga), SeekOrigin.Current);
+
+            byte[] data = new byte[200];
+            readStream.Read(data, 0, 200);
+            string s = Encoding.ASCII.GetString(data);
+
+            readStream.Close();
+            read.Close();
+
+            String[] split = s.Split(';');
+            String[] split1 = split[7].Split(' ');
+
+            var writeStream = new FileStream("masserini1.csv", FileMode.Open, FileAccess.Write, FileShare.Write);
+            BinaryWriter writer = new BinaryWriter(writeStream);
+
+            writeStream.Seek(0, SeekOrigin.Begin);
+            writeStream.Seek((200 * riga), SeekOrigin.Current);
+
+            //Scrive i dati
+            string linea = $"{split[0]};{split[1]};{split[2]};{split[3]};{split[4]};{split[5]};true;{split[7]}".PadRight(200);
+            byte[] data2 = Encoding.ASCII.GetBytes(linea);
+            writer.Write(data2);
+            successo = 1;
+
+            writer.Close();
+            writeStream.Close();
+
+            return successo;
         }
     }
 }
