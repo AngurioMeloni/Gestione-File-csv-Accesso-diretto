@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,5 +47,20 @@ namespace Crud_File_csv_Accesso_diretto
                 listView1.Items.Add(MaxC[i].ToString());//visualizzazione dei valori dell'array nella listview
             }
         }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Class1.Istruzione4();//richiamo alla funzione 4
+            MessageBox.Show("Istruzione 4 eseguita con successo");//messaggio di output che indica che la funzione 4 è stata eseguita con successo
+        }
+        private void button6_Click(object sender, EventArgs e)
+        {
+            groupBox1.Show();//funzione che mostra la groupbox1
+        }
+        private void button11_Click(object sender, EventArgs e)
+        {
+            Class1.Istruzione5(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text, textBox6.Text);//richiamo alla funzione 5
+            MessageBox.Show("Istruzione 5 eseguita con successo");//messaggio di output che indica che la funzione 5 è stata eseguita con successo
+        }
+
     }
 }
